@@ -2,6 +2,7 @@
 #include <Arduino.h>
 #include <Servo.h>
 #include <IBusBM.h>
+#include "MPU9250.h"
 
 
 //define block
@@ -28,6 +29,7 @@ bool calibration_boot = 0;
 //init block
 IBusBM ibus;
 Servo motorA, motorB;
+MPU9250 mpu;
 
 //func block
 int readChannel(byte channelInput, int minLimit, int maxLimit, int defaultValue);
@@ -35,9 +37,13 @@ bool readSwitch(byte channelInput, bool defaultValue);
 void ESC_calibration();
 
 void setup() {
-  Serial.begin(9600);
   pinMode(13, OUTPUT);
+
+  Serial.begin(9600);
   ibus.begin(Serial3);
+  Wire.begin();
+
+  mpu.setup(0x68);
   motorA.attach(MOTORA_PIN);
   motorB.attach(MOTORB_PIN);
 
@@ -48,6 +54,10 @@ void setup() {
     ESC_calibration();
   }
 
+  delay(5000);
+
+  mpu.calibrateAccelGyro();
+  mpu.calibrateMag();
 
 
 }
@@ -55,9 +65,17 @@ void setup() {
 void loop() {
 
   digitalWrite(13, HIGH);
-  // Serial.print("ch1: "); Serial.print(ibus.readChannel(1));
-  // Serial.print("\tch3: "); Serial.print(map(ibus.readChannel(3), 1000, 2000, -1000, 1000));
-  // Serial.print("\tch9: "); Serial.println(ibus.readChannel(9));
+
+/*   Serial.print("ch1: "); Serial.print(ibus.readChannel(1));
+  Serial.print("\tch3: "); Serial.print(map(ibus.readChannel(3), 1000, 2000, -1000, 1000));
+  Serial.print("\tch9: "); Serial.println(ibus.readChannel(9)); */
+
+    if (mpu.update())
+    {
+      Serial.print(mpu.getYaw()); Serial.print(", ");
+      Serial.print(mpu.getPitch()); Serial.print(", ");
+      Serial.println(mpu.getRoll());
+    }
 
   speed = ibus.readChannel(1);
   max_speed = ibus.readChannel(4);
@@ -84,7 +102,7 @@ void loop() {
   if(speedB > max_speed) speedB = max_speed;
   if(speedB < 1000) speedB = 1000;
 
-  Serial.print("spd: "); Serial.print(speed);
+ /*  Serial.print("spd: "); Serial.print(speed);
   Serial.print("\ttrn: "); Serial.print(turn);
   Serial.print("\tmxspd: "); Serial.print(max_speed);
   Serial.print("\tk_mxspd: "); Serial.print(k_mxspd);
@@ -92,7 +110,7 @@ void loop() {
   Serial.print("\tspdA: "); Serial.print(speedA);
   Serial.print("\tspdB: "); Serial.print(speedB);
   
-  Serial.print("\tstp: "); Serial.println(stop);
+  Serial.print("\tstp: "); Serial.println(stop); */
 
   if(stop)
   {
