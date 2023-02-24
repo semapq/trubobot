@@ -1,3 +1,1 @@
 # trubobot nady
-# test commit
-
