@@ -66,14 +66,19 @@ void loop() {
   digitalWrite(13, HIGH);
 
   /* Channel Debug */
-  // Serial.print("ch1: "); Serial.print(ibus.readChannel(1));
-  // Serial.print("\tch3: "); Serial.print(map(ibus.readChannel(3), 1000, 2000, -1000, 1000));
-  // Serial.print("\tch9: "); Serial.println(ibus.readChannel(9));
+/* Serial.print("ch0: ");   Serial.print(ibus.readChannel(0));
+   Serial.print("\tch1: "); Serial.print(ibus.readChannel(1));
+   Serial.print("\tch2: "); Serial.print(ibus.readChannel(2));
+   Serial.print("\tch3: "); Serial.print(ibus.readChannel(3));
+   Serial.print("\tch4: "); Serial.print(ibus.readChannel(4));
+   Serial.print("\tch5: "); Serial.print(ibus.readChannel(5));
+   Serial.print("\tch6: "); Serial.println(ibus.readChannel(6));
+*/
 
-  speed = ibus.readChannel(1);
-  max_speed = ibus.readChannel(4);
-  turn = map(ibus.readChannel(3), 1000, 2000, -1000, 1000);
-  stop = map(ibus.readChannel(9), 1000, 2000, 1, 0);
+  speed = ibus.readChannel(2);
+  max_speed = ibus.readChannel(5);
+  turn = map(ibus.readChannel(0), 1000, 2000, -1000, 1000);
+  stop = map(ibus.readChannel(4), 1000, 2000, 1, 0);
 
   if(speed < 1020) speed = 1000;
   if(speed > 1950) speed = 2000;
@@ -96,15 +101,15 @@ void loop() {
   if(speedB < 1000) speedB = 1000;
 
 /* Variables Debug */
-//  Serial.print("spd: "); Serial.print(speed);
-//  Serial.print("\ttrn: "); Serial.print(turn);
-//  Serial.print("\tmxspd: "); Serial.print(max_speed);
-//  Serial.print("\tk_mxspd: "); Serial.print(k_mxspd);
-//
-//  Serial.print("\tspdA: "); Serial.print(speedA);
-//  Serial.print("\tspdB: "); Serial.print(speedB);
-//
-//  Serial.print("\tstp: "); Serial.println(stop);
+Serial.print("spd: "); Serial.print(speed);
+  Serial.print("\ttrn: "); Serial.print(turn);
+  Serial.print("\tmxspd: "); Serial.print(max_speed);
+  Serial.print("\tk_mxspd: "); Serial.print(k_mxspd);
+
+  Serial.print("\tspdA: "); Serial.print(speedA);
+  Serial.print("\tspdB: "); Serial.print(speedB);
+
+  Serial.print("\tstp: "); Serial.println(stop);
 
   if(stop)
   {
