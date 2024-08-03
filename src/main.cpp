@@ -101,7 +101,7 @@ void loop() {
   if(speedB < 1000) speedB = 1000;
 
 /* Variables Debug */
-Serial.print("spd: "); Serial.print(speed);
+/*Serial.print("spd: "); Serial.print(speed);
   Serial.print("\ttrn: "); Serial.print(turn);
   Serial.print("\tmxspd: "); Serial.print(max_speed);
   Serial.print("\tk_mxspd: "); Serial.print(k_mxspd);
@@ -110,7 +110,7 @@ Serial.print("spd: "); Serial.print(speed);
   Serial.print("\tspdB: "); Serial.print(speedB);
 
   Serial.print("\tstp: "); Serial.println(stop);
-
+*/
   if(stop)
   {
     speedA = 1000;
